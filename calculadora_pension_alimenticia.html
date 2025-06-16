@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Pensión Alimenticia</title>
+</head>
+<body>
+  <h2>Calculadora de Pensión Alimenticia (Ecuador)</h2>
+  <label>Sueldo del alimentante: $<input type="number" id="sueldo" /></label><br><br>
+  <label><input type="checkbox" id="iess" checked /> Aplicar descuento IESS (9,45%)</label><br><br>
+  <label>Edad del hijo/a:
+    <select id="edad">
+      <option value="0.245">0-2 años (24.5%)</option>
+      <option value="0.285">3-4 años (28.5%)</option>
+      <option value="0.315">5-6 años (31.5%)</option>
+      <option value="0.345">7-8 años (34.5%)</option>
+      <option value="0.38">9-10 años (38%)</option>
+    </select>
+  </label><br><br>
+  <button onclick="calcular()">Calcular pensión</button>
+
+  <h3 id="resultado"></h3>
+
+  <script>
+    function calcular() {
+      let sueldo = parseFloat(document.getElementById("sueldo").value);
+      let aplicaIESS = document.getElementById("iess").checked;
+      let porcentaje = parseFloat(document.getElementById("edad").value);
+
+      if (isNaN(sueldo) || sueldo <= 0) {
+        document.getElementById("resultado").innerText = "Ingrese un sueldo válido.";
+        return;
+      }
+
+      let sueldoNeto = aplicaIESS ? sueldo * (1 - 0.0945) : sueldo;
+      let ingresoReferencial = sueldoNeto / 470;
+      let pension = ingresoReferencial * porcentaje * 470;
+
+      document.getElementById("resultado").innerText =
+        "La pensión aproximada es: $" + pension.toFixed(2);
+    }
+  </script>
+</body>
+</html>
